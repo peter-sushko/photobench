@@ -19,7 +19,6 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
-import json
 
 folder = "test_download_images"
 
@@ -35,9 +34,9 @@ def clasify_url(imgur_link:str):
     """
     if 'i.imgur.com' in imgur_link:
         return 'image'
-    elif '/a/' in imgur_link or '/gallery/' in imgur_link:
+    if '/a/' in imgur_link or '/gallery/' in imgur_link:
         return 'album'
-    elif 'imgur.com' in imgur_link:
+    if 'imgur.com' in imgur_link:
         return 'post'
     return -1
 
@@ -90,23 +89,23 @@ def download_imgur_image(url: str, image_id: str, download_folder: str, verbose:
                 extension = find_image_url_extension(url)
                 filename = f"{image_id}.{extension}"  # Use the correct extension
                 filepath = os.path.join(download_folder, filename)
-                
+
                 with open(filepath, 'wb') as out_file:
                     out_file.write(response.content)
-                    
+
                 # Check if we got the placeholder 404 image:
                 downloaded_image = Image.open(filepath)
                 placeholder_image = Image.open('/Users/petrsushko/Desktop/placeholder.jpg')
                 if list(downloaded_image.getdata()) == list(placeholder_image.getdata()):
                     os.remove(filepath)
                     status = 'Failure: Placeholder image downloaded'
-                    
+
             else:
                 status = 'Failure: Not an image'
         else:
             status = f"Error {response.status_code}"
-    except Exception as e:
-        status = 'Failure: ' + str(e)
+    except Exception as exception:
+        status = 'Failure: ' + str(exception)
 
     if url == 'unrecovered':
         status = 'URL wasnt recovered'
@@ -131,7 +130,7 @@ def download_imgur_post(url: str, image_id: str, download_folder: str, verbose: 
     if re.search(pattern, url):
         image_url = re.sub(pattern, '://i.imgur.', url, count=1)
         attempt = download_imgur_image(image_url + '.jpeg', image_id, download_folder, verbose=verbose)
-        return attempt            
+        return attempt
     return 'failed_to_convert_to_image_url'
 
 def get_imgur_album_info(album_url):
@@ -178,4 +177,4 @@ def download_imgur_album(url: str, image_id: str, download_folder: str, verbose:
     """
     url_to_download = get_imgur_album_info(url)
     attempt = download_imgur_image(url_to_download , image_id, download_folder, verbose=verbose)
-    return attempt 
+    return attempt
