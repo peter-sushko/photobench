@@ -1,0 +1,8 @@
+Model,O,PQ,SC
+output_cosine_bs_128,3.64,4.01,4.61
+output_aurora,2.2,3.45,2.4
+output_mb,1.99,3.97,2.05
+output_null_text,1.76,3.36,1.95
+output_ip2p,1.65,3.12,1.79
+output_hive,1.52,3.59,1.68
+output_sdedit,0.61,1.54,0.74
