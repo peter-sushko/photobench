@@ -9,13 +9,12 @@ OUTPUT_BASE_PATH = '/mmfs1/gscratch/krishna/psushko/photobench/benchmark_tables/
 MODELS = [
 
     'output_ip2p',
-    # 'output_mb', 
-    # 'output_aurora', 
-    # 'output_cosine_bs_128',
-
-    # 'output_null_text', 
-    # 'output_sdedit',
-    # 'output_hive' # Evaluated manually
+    'output_mb', 
+    'output_aurora', 
+    'output_cosine_bs_128',
+    'output_null_text', 
+    'output_sdedit',
+    'output_hive'
 
 ]
 
@@ -54,5 +53,5 @@ for model_name in MODELS:
             print(f"Error processing {row['input_image']} for model {model_name}: {e}")
             continue
 
-    results_df.to_csv(f'2k_viescore_results_{model_name}.csv', index=False)
-    print(f"Results for {model_name} saved to 2k_viescore_results_{model_name}.csv")
+    results_df.to_csv(f'viescore_results_{model_name}.csv', index=False)
+    print(f"Results for {model_name} saved to viescore_results_{model_name}.csv")
